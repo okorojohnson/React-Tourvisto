@@ -1,73 +1,45 @@
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { ClerkProvider, useAuth } from "@clerk/clerk-react"; // Add useAuth import
-import { AuthProvider } from "./context/Authcontext";
-import { DestinationProvider } from "./context/DestinationContext";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Authpage from "./pages/Authpage";
 import Homepage from "./pages/Homepage";
+import TripDetailspage from "./pages/TripDetailspage";
+import Paymentpage from "./pages/Paymentpage";
+import Confirmationpage from "./pages/Confirmationpage";
+import { ClerkProvider } from "@clerk/clerk-react";
+import { AuthProvider } from "./context/Authcontext";
+import { DestinationProvider } from "./context/DestinationContext";
+import { BackendDataContextProvider } from "./context/BackendDataContext";
+import { LocalDataContextProvider } from "./context/LocalDataContext";
 
 const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
-
-// Optional: Add Error Boundary
-class ErrorBoundary extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error) {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
-    }
-    return this.props.children;
-  }
-}
-
-const ProtectedRoute = ({ children }) => {
-  const { isSignedIn, isLoaded } = useAuth();
-
-  if (!isLoaded) return null;
-
-  if (!isSignedIn) {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
-};
 
 const App = () => {
   return (
     <div className="overflow-x-hidden font-t_figtree text-t_black">
-      <ErrorBoundary>
-        <Router>
-          <ClerkProvider publishableKey={clerkPubKey}>
-            <AuthProvider>
-              <DestinationProvider>
-                <Routes>
-                  <Route path="/" element={<Authpage />} />
-                  <Route
-                    path="/Home"
-                    element={
-                      <ProtectedRoute>
-                        <Homepage />
-                      </ProtectedRoute>
-                    }
-                  />
-                </Routes>
-              </DestinationProvider>
-            </AuthProvider>
-          </ClerkProvider>
-        </Router>
-      </ErrorBoundary>
+      <Router>
+        <ClerkProvider publishableKey={clerkPubKey}>
+          <AuthProvider>
+            <DestinationProvider>
+              <BackendDataContextProvider>
+                <LocalDataContextProvider>
+                  <Routes>
+                    <Route path="/" element={<Authpage />} />
+                    <Route path="/home" element={<Homepage />} />
+                    <Route
+                      path="/destination/:id"
+                      element={<TripDetailspage />}
+                    />
+                    <Route path="/payment-stripe" element={<Paymentpage />} />
+                    <Route
+                      path="/payment-confirmation"
+                      element={<Confirmationpage />}
+                    />
+                  </Routes>
+                </LocalDataContextProvider>
+              </BackendDataContextProvider>
+            </DestinationProvider>
+          </AuthProvider>
+        </ClerkProvider>
+      </Router>
     </div>
   );
 };

@@ -1,95 +1,144 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDestination } from "../context/DestinationContext";
 
 const FeaturedDestinations = () => {
+  // Helps us to go (programmtically) from one page to another
   const navigate = useNavigate();
   const { getFeaturedDestinations } = useDestination();
-  const destinations = getFeaturedDestinations().slice(0, 4); // Get first 4 destinations
+
+  // Get featured destination
+  const featuredDestinations = getFeaturedDestinations();
 
   const handleCardClick = (destinationId) => {
     navigate(`/destination/${destinationId}`);
   };
 
   return (
-    <section className="py-20 px-32 bg-white">
+    // <section className="py-20 px-32 bg-gray-50">
+    //   <div className="max-w-7xl mx-auto">
+    //     <div>
+    //       <h2 className="font-bold text-4xl leading-8 mb-3">
+    //         Featured Travel Destinations
+    //       </h2>
+    //       <p className="text-lg leading-6 text-[#7F7E83]">
+    //         Check out some of the best places you can visit around the world.
+    //       </p>
+    //     </div>
+
+    //     {/* Main grid */}
+    //     <div className="mt-10">
+    //       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[500px]">
+    //         {/* Large featured card - LEFT SIDE */}
+
+    //         <div
+    //           className="lg:col-span-8 grid grid-cols-2 relative rounded-2xl overflow-hidden cursor-pointer shadow-lg"
+    //           //   onClick={() => handleCardClick(featuredDestinations[0].id)}
+    //         >
+    //           <img
+    //             src={featuredDestinations[0].image}
+    //             alt={featuredDestinations[0].name}
+    //             className="w-full h-full object-cover hover:scale-105 transition-all duration-300 ease-linear"
+    //           />
+
+    //           <div>3.5</div>
+    //           <div className="absolute bottom-4 left-4 text-white">
+    //             <h3 className="text-2xl font-bold">
+    //               {featuredDestinations[0].name}
+    //             </h3>
+    //             <p>{featuredDestinations[0].activities} Activities</p>
+    //           </div>
+    //         </div>
+    //         {/* Small Cards */}
+
+    //         <div>
+    //           {featuredDestinations.slice(1, 5).map((dest) => {
+    //             <div
+    //               key={dest.id}
+    //               className="relative rounded-2xl overflow-hidden cursor-pointer shadow-lg flex-1"
+    //               onClick={() => handleCardClick(dest.id)}
+    //             >
+    //               <img
+    //                 src={dest.image}
+    //                 alt={dest.name}
+    //                 className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
+    //               />
+    //               <div className="absolute top-3 left-3 bg-white rounded-full px-2 py-1 text-sm">
+    //                 {dest.rating}
+    //               </div>
+    //               <div className="absolute bottom-3 left-3 text-white">
+    //                 <h4 className="font-bold">{dest.name}</h4>
+    //                 <p className="text-sm">{dest.activities} Activities</p>
+    //               </div>
+    //             </div>;
+    //           })}
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // </section>
+    <section className="py-20 px-32 bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h2 className="font-bold text-3xl leading-8 mb-2">Featured Travel</h2>
-          <p className="text-base leading-6 text-gray-500">
+        <div>
+          <h2 className="font-bold text-4xl leading-8 mb-3">
+            Featured Travel Destinations
+          </h2>
+          <p className="text-lg leading-6 text-[#7F7E83]">
             Check out some of the best places you can visit around the world.
           </p>
         </div>
 
-        {/* Main Grid Container */}
-        <div className="grid grid-cols-12 h-[600px] gap-4">
-          {/* Left Column - Large Barcelona Card */}
-          <div
-            className="col-span-7 relative rounded-2xl overflow-hidden cursor-pointer group"
-            onClick={() => handleCardClick(destinations[0].id)}
-          >
-            <img
-              src={destinations[0].image}
-              alt={destinations[0].name}
-              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-            />
-            <div className="absolute top-4 left-4 bg-white rounded-full px-3 py-1">
-              <span className="text-sm font-medium">
-                {destinations[0].rating}
-              </span>
-            </div>
-            <div className="absolute bottom-4 left-4 text-white">
-              <h3 className="text-2xl font-bold mb-1">
-                {destinations[0].name}
-              </h3>
-              <div className="flex items-center gap-2">
-                <img
-                  src="/icons/activity.svg"
-                  alt="Activities"
-                  className="w-4 h-4"
-                />
-                <span className="text-sm">
-                  {destinations[0].activities} Activities
-                </span>
+        {/* Main grid */}
+        <div className="mt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[100px]">
+            {/* Large featured card - LEFT SIDE */}
+            <div
+              className="lg:col-span-8 relative rounded-2xl overflow-hidden cursor-pointer shadow-lg
+           
+           "
+              onClick={() => handleCardClick(featuredDestinations[0].id)}
+            >
+              <img
+                src={featuredDestinations[0].image}
+                alt={featuredDestinations[0].name}
+                className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
+              />
+              <div className="absolute top-4 left-4 bg-white rounded-full px-3 py-1">
+                {featuredDestinations[0].rating}
+              </div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <h3 className="text-2xl font-bold">
+                  {featuredDestinations[0].name}
+                </h3>
+                <p>{featuredDestinations[0].activities} Activities</p>
               </div>
             </div>
-          </div>
 
-          {/* Right Column Grid */}
-          <div className="col-span-5 grid grid-rows-3 gap-4">
-            {destinations.slice(1, 4).map((destination) => (
-              <div
-                key={destination.id}
-                className="relative rounded-2xl overflow-hidden cursor-pointer group"
-                onClick={() => handleCardClick(destination.id)}
-              >
-                <img
-                  src={destination.image}
-                  alt={destination.name}
-                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <div className="absolute top-3 left-3 bg-white rounded-full px-2 py-0.5">
-                  <span className="text-xs font-medium">
+            {/* Small cards - RIGHT SIDE */}
+            <div className="lg:col-span-4 flex flex-col gap-4">
+              {featuredDestinations.slice(1, 4).map((destination) => (
+                <div
+                  key={destination.id}
+                  className="relative rounded-2xl overflow-hidden cursor-pointer shadow-lg flex-1"
+                  onClick={() => handleCardClick(destination.id)}
+                >
+                  <img
+                    src={destination.image}
+                    alt={destination.name}
+                    className="w-full h-full object-cover hover:scale-105 transition-all duration-300"
+                  />
+                  <div className="absolute top-3 left-3 bg-white rounded-full px-2 py-1 text-sm">
                     {destination.rating}
-                  </span>
-                </div>
-                <div className="absolute bottom-3 left-3 text-white">
-                  <h4 className="text-sm font-bold mb-0.5">
-                    {destination.name}
-                  </h4>
-                  <div className="flex items-center gap-1">
-                    <img
-                      src="/icons/activity.svg"
-                      alt="Activities"
-                      className="w-3 h-3"
-                    />
-                    <span className="text-xs">
+                  </div>
+                  <div className="absolute bottom-3 left-3 text-white">
+                    <h4 className="font-bold">{destination.name}</h4>
+                    <p className="text-sm">
                       {destination.activities} Activities
-                    </span>
+                    </p>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
