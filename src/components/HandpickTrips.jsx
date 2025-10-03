@@ -4,7 +4,7 @@ import { useDestination } from "../context/DestinationContext";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
-const HandpickedTrips = () => {
+const HandpickTrips = () => {
   const navigate = useNavigate();
   const { getHandpickedTrips, categories } = useDestination();
 
@@ -50,7 +50,7 @@ const HandpickedTrips = () => {
     if (!tripCategories || tripCategories.length === 0) return null;
 
     return (
-      <div className="flex flex-wrap gap-2 mt-4">
+      <div className="flex flex-wrap gap-2 mt-4 mb-20">
         {tripCategories.map((category, index) => (
           <span
             key={index}
@@ -73,7 +73,7 @@ const HandpickedTrips = () => {
     }
 
     return (
-      <div className="flex items-center justify-between gap-4 mt-12">
+      <div className="flex items-center justify-between gap-4 mt-12 mb-30">
         {/* Previous button */}
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -180,4 +180,4 @@ const HandpickedTrips = () => {
   );
 };
 
-export default HandpickedTrips;
+export default HandpickTrips;
